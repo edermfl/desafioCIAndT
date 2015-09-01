@@ -19,4 +19,8 @@ public interface RotaRepository {
 
 	public List<Rota> buscarTodas();
 
+	public void deleteAll();
+	
+	public void delete(String pOrigem, String pDestino);
+
 }

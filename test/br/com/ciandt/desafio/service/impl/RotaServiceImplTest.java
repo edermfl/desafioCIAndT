@@ -27,35 +27,43 @@ public class RotaServiceImplTest {
 
 	private RotaService service = new RotaServiceImpl();
 
-	private String xml = "<list>" + "<rota>"
-	        + "<origem>A</origem>" + "<destino>B</destino>"
-	        + "<distancia>10</distancia>"
-	        + "</rota>"
-	        + "<rota>" + "<origem>B</origem>"
-	        + "<destino>D</destino>" + "<distancia>15</distancia>"
-	        + "</rota>"
-	        + "<rota>" + "<origem>A</origem>"
-	        + "<destino>C</destino>" + "<distancia>20</distancia>"
-	        + "</rota>"
-	        + "<rota>" + "<origem>C</origem>"
-	        + "<destino>D</destino>" + "<distancia>30</distancia>"
-	        + "</rota>"
-	        + "<rota>" + "<origem>B</origem>"
-	        + "<destino>E</destino>" + "<distancia>50</distancia>"
-	        + "</rota>"
-	        + "<rota>" + "<origem>D</origem>"
-	        + "<destino>E</destino>" + "<distancia>30</distancia>"
-	        + "</rota>" + "</list>";
+	private String xml = "<list>" 
+			+ "<rota><origem>A</origem><destino>B</destino><distancia>10</distancia></rota>"
+	        + "<rota><origem>B</origem><destino>D</destino><distancia>15</distancia></rota>"
+	        + "<rota><origem>A</origem><destino>C</destino><distancia>20</distancia></rota>"
+	        + "<rota><origem>C</origem><destino>D</destino><distancia>30</distancia></rota>"
+	        + "<rota><origem>B</origem><destino>E</destino><distancia>50</distancia></rota>"
+	        + "<rota><origem>D</origem><destino>E</destino><distancia>30</distancia></rota>" 
+	        + "</list>";
 
 	@Test(expected = IllegalArgumentException.class)
-	public void test_gerarRotas_xml_nulo() throws IllegalAccessException {
+	public void test_registrarRotas_porXml_xml_nulo() throws IllegalAccessException {
 		String xmlRota = null;
 		service.registrarRotas(xmlRota);
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void test_registrarRota_origem_igual_destino() throws IllegalAccessException {
+		service.registrarRota("X","X",BigDecimal.TEN);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void test_registrarRota_origem_igual_destino_2() throws IllegalAccessException {
+		service.registrarRota("X","Y",BigDecimal.TEN);
+		service.registrarRota("Y","X",BigDecimal.TEN);
+	}
+	
+	@Test()
+	public void test_registrarRota_com_sucesso() throws IllegalAccessException {
+		service.registrarRota("X","Y",BigDecimal.TEN);
+		service.registrarRota("A","X",BigDecimal.TEN);
+		List<Rota> listaRotas = buscarTodasRotas();
+		Assert.assertEquals(listaRotas.toString(),3, listaRotas.size());
+	}
 
 	@Test
-	public void test_gerarRotas_sucesso() throws IllegalAccessException {
-
+	public void test_registrarRotas_porXml_sucesso() throws IllegalAccessException {
+		System.out.println(xml);
 		service.registrarRotas(xml);
 		List<Rota> listaRotas = buscarTodasRotas();
 		objetosCriado.addAll(listaRotas);
@@ -199,20 +207,26 @@ public class RotaServiceImplTest {
 		}
 	}
 
-	private String gerarXmlAleatorios(int quantidade) {
-		List<RotaXmlTO> rotas = new ArrayList<RotaXmlTO>();
-		for (int i = 0; i < quantidade; i++) {
-			Random random = new Random();
-			int valor = random.nextInt(99);
-			char origem = (char) (65 + random.nextInt(25));
-			char destino = (char) (65 + random.nextInt(25));
-			destino = (char) (destino == origem ? destino + 1 : destino);
-			rotas.add(new RotaXmlTO(origem + "", destino + "", new BigDecimal(
-			        valor)));
-		}
-		String xml = new XmlUtil().gerarXmlApartirObjeto(rotas);
-		System.out.println(xml);
-		return xml;
-	}
+
+//	@Test
+//	public void test_gerarRotas_sucesso2() throws IllegalAccessException {
+//		System.out.println(gerarXmlAleatorios(50));
+//	}
+	
+//	private String gerarXmlAleatorios(int quantidade) {
+//		List<RotaXmlTO> rotas = new ArrayList<RotaXmlTO>();
+//		for (int i = 0; i < quantidade; i++) {
+//			Random random = new Random();
+//			int valor = random.nextInt(99);
+//			char origem = (char) (65 + random.nextInt(25));
+//			char destino = (char) (65 + random.nextInt(25));
+//			destino = (char) (destino == origem ? destino + 1 : destino);
+//			rotas.add(new RotaXmlTO(origem + "", destino + "", new BigDecimal(
+//			        valor)));
+//		}
+//		String xml = new XmlUtil().adicionarAlias("rota", RotaXmlTO.class).gerarXmlApartirObjeto(rotas);
+//		System.out.println(xml);
+//		return xml;
+//	}
 
 }

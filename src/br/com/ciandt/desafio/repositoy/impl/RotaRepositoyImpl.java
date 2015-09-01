@@ -8,6 +8,7 @@ import br.com.ciandt.desafio.modal.Rota;
 import br.com.ciandt.desafio.repositoy.RotaRepository;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -138,5 +139,41 @@ public class RotaRepositoyImpl implements RotaRepository {
 		}
 		return null;
     }
+
+	@Override
+	public void deleteAll() {
+		Session session = HibernateUtil.getSession();
+		try {
+			session.beginTransaction();
+
+			Query query = session.createQuery("delete from " + Rota.class.getName());
+			query.executeUpdate();
+			
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+		} finally {
+			session.close();
+		}
+	}
+
+	@Override
+	public void delete(String pOrigem, String pDestino) {
+		Session session = HibernateUtil.getSession();
+		try {
+			session.beginTransaction();
+
+			Query query = session.createQuery("delete from " + Rota.class.getName() + " where origem = :pOrigem and destino = :pDestino");
+			query.setString("pOrigem", pOrigem);
+			query.setString("pDestino", pDestino);
+			query.executeUpdate();
+			
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+		} finally {
+			session.close();
+		}
+	}
 
 }

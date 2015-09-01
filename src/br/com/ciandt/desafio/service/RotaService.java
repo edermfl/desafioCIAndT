@@ -9,11 +9,24 @@ public interface RotaService {
 	public static final String MENSAGEM_SUCESSO = "<melhorRota><rota>%s</rota><custo>%s</custo></melhorRota>";
 
 	/**
-	 * Gera rota 
-	 * @throws IllegalAccessException 
+	 * Gera rota
+	 * 
+	 * @return confirmação de inclusão
+	 * @throws IllegalAccessException
 	 */
 	public String registrarRotas(String pListaRotas) throws IllegalArgumentException;
-	
+
+	/**
+	 * 
+	 * @param pOrigem
+	 * @param pDestino
+	 * @param pDistancia
+	 * @return confirmação de inclusão
+	 * @throws IllegalArgumentException
+	 */
+	public String registrarRota(String pOrigem, String pDestino, BigDecimal pDistancia) throws IllegalArgumentException;
+
+
 	/**
 	 * 
 	 * @param pOrigem
@@ -24,7 +37,7 @@ public interface RotaService {
 	 */
 	public String buscarMelhorRota(String pOrigem, String pDestino, BigDecimal pAutonomia, BigDecimal pValorLitro);
 
-	/** 
+	/**
 	 * 
 	 * @return XML de todas as rotas
 	 */
@@ -36,5 +49,18 @@ public interface RotaService {
 	 * @return xml melhor rota
 	 */
 	public String buscarMelhorRota(String pXml);
+
+	/**
+	 * Apaga todas as rotas criadas
+	 */
+	public void limparTodasRotas();
+
+	/**
+	 * Exclui uma rota por origem e destino
+	 * 
+	 * @param pOrigem
+	 * @param pDestino
+	 */
+	public void excluirRota(String pOrigem, String pDestino);
 
 }

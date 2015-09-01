@@ -94,4 +94,8 @@ public class Rota implements Serializable {
 		return steps;
 	}
 
+	public boolean isOrigemIgualDestino() {
+		return origem.equals(destino);
+	}
+
 }
