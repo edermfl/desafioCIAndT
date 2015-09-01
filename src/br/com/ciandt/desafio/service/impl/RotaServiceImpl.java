@@ -23,24 +23,32 @@ public class RotaServiceImpl implements RotaService {
 		if (pXmlRotas == null || pXmlRotas.isEmpty()) {
 			throw new IllegalArgumentException("XML (pXmlRotas) não pode ser nulo ou vazio");
 		}
-		StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder("<retorno>");
 		Object objeto = new XmlUtil().adicionarAlias("rota", Rota.class).gerarObjetoApatirXml(pXmlRotas);
 		if (objeto instanceof Collection) {
 			Collection<Rota> listaRotas = (Collection<Rota>) objeto;
 
 			for (Rota rota : listaRotas) {
-				gravarRota(rota);
-				builder.append(rota.toString());
+				builder.append(registrarRota(rota));
 			}
 		}
-		return builder.toString();
+		return builder.append("</retorno>").toString();
 
 	}
-	
-	public String registrarRota(String pOrigem, String pDestino, BigDecimal pDistancia) throws IllegalArgumentException {
+
+	public String registrarRota(String pOrigem, String pDestino, BigDecimal pDistancia)
+			throws IllegalArgumentException {
 		Rota rota = new Rota(pOrigem, pDestino, pDistancia, null);
-		gravarRota(rota);
-		return rota.toString();
+		return registrarRota(rota);
+	}
+
+	private String registrarRota(Rota rota) {
+		try {
+			gravarRota(rota);
+			return "<sucesso>" + rota.toString() + "</sucesso>";
+		} catch (IllegalArgumentException e) {
+			return "<erro>" + rota.toString() + "</erro>";
+		}
 	}
 
 	private void gravarRota(Rota pRota) throws IllegalArgumentException {
@@ -54,7 +62,8 @@ public class RotaServiceImpl implements RotaService {
 			repository.incluir(rotaBanco);
 			System.out.println(rotaBanco.getSteps());
 
-			//recupera rotas do banco cujo, destino seja a mesma origem que a rota que acabou de ser incluída
+			// recupera rotas do banco cujo, destino seja a mesma origem que a
+			// rota que acabou de ser incluída
 			List<Rota> listaRotas = repository.buscarPorDestino(rotaBanco.getOrigem());
 			for (Rota rotaEncontrada : listaRotas) {
 				String origem = rotaEncontrada.getOrigem();
@@ -63,12 +72,13 @@ public class RotaServiceImpl implements RotaService {
 				BigDecimal distancia = rotaBanco.getDistancia().add(rotaEncontrada.getDistancia());
 				gravarRota(new Rota(origem, destino, distancia, step));
 			}
-			//recupera rotas do banco cujo, origem seja a mesma destino que a rota que acabou de ser incluída
+			// recupera rotas do banco cujo, origem seja a mesma destino que a
+			// rota que acabou de ser incluída
 			listaRotas = repository.buscarPorOrigem(rotaBanco.getDestino());
 			for (Rota rotaEncontrada : listaRotas) {
 				String origem = rotaBanco.getOrigem();
 				String destino = rotaEncontrada.getDestino();
-				String step = rotaBanco.getSteps();
+				String step = rotaEncontrada.getSteps();
 				BigDecimal distancia = rotaBanco.getDistancia().add(rotaEncontrada.getDistancia());
 				gravarRota(new Rota(origem, destino, distancia, step));
 			}

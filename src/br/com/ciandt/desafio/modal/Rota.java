@@ -56,7 +56,7 @@ public class Rota implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("Rota: %s - %s (%s); ", origem, destino,
+		return String.format("Rota [%s]: %s - %s (%s).", steps, origem, destino,
 		        distancia.toString());
 	}
 
