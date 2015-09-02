@@ -63,6 +63,8 @@
     <sucesso>Rota [X Z]: X - Z (10).</sucesso>
   </retorno>
 ```
+<i><b>Observação: </b>foi criado também HTML, para inclusão manual de rotas, usando o método POST. Disponível em: http://localhost:8080/desafioCIAndT</i>
+
 <h3>Serviço: Melhor Rota</h3>
 <b>Descrição: </b>Define qual melhor rota seguir</br>
 <b>Método: </b>PUT</br>
@@ -91,4 +93,14 @@
 <b>Retorno: </b>XML
 ```
 <sucesso/>
+```
+
+<h2>Gueps conhecidos</h2>
+Existe um problema, vide o cenário abaixo:
+```
+Dado que você tenha criado a seguinte rota: A B 20
+Quando solicitar a melhor rota para: A B 10 1
+Então receberei o melhor custo: A B 10
+Quando solicitar a melhor rota para: B A 10 1
+Então receberei a mensagem: "Não foi encontrado rota para a origem A e destino D informado."
 ```
