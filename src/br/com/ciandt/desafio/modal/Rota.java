@@ -31,14 +31,6 @@ public class Rota implements Serializable {
 	}
 
 	/**
-	 * @param rotaXmlTo
-	 */
-	public Rota(RotaXmlTO rotaXmlTo) {
-		this(rotaXmlTo.getOrigem(), rotaXmlTo.getDestino(), rotaXmlTo
-		        .getDistancia(), null);
-	}
-
-	/**
 	 * 
 	 * @param pOrigem
 	 * @param pDestino
@@ -65,13 +57,18 @@ public class Rota implements Serializable {
 	}
 
 	public String gerarSteps() {
-		StringBuilder builder = new StringBuilder(steps == null ? "" : steps);
-		if (steps == null) {
-			builder.append(origem);
+		if(steps == null){
+			steps = String.format("%s %s", origem, destino);
 		}
-		builder.append(" ").append(destino);
-		steps = builder.toString();
 		return steps;
+		
+//		StringBuilder builder = new StringBuilder(steps == null ? "" : steps);
+//		if (steps == null) {
+//			builder.append(origem);
+//		}
+//		builder.append(" ").append(destino);
+//		steps = builder.toString();
+//		return steps;
 	}
 
 	public String getCodigo() {

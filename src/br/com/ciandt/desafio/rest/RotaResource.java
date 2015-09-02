@@ -1,9 +1,6 @@
 package br.com.ciandt.desafio.rest;
 
 import java.math.BigDecimal;
-import java.util.List;
-
-import javax.transaction.Status;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -15,15 +12,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
-
-import org.jboss.logging.Param;
-
-import br.com.ciandt.desafio.modal.RotaXmlTO;
 import br.com.ciandt.desafio.service.RotaService;
 import br.com.ciandt.desafio.service.impl.RotaServiceImpl;
 
@@ -40,25 +28,11 @@ public class RotaResource {
 		return Response.ok(service.buscarMelhorRota(pXml)).build();
 	}
 
-	@GET
-	@Path("/melhorRota")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response getBetterRota() {
-		return Response.ok("Informe os Paramentros").build();
-	}
-
 	@DELETE
 	@Path("/limpar")
 	public Response getLimparRotas() {
 		service.limparTodasRotas();
-		return Response.ok("Sucesso!").build();
-	}
-
-	@DELETE
-	@Path("/apagar")
-	public Response getApagarRota(@PathParam("{pOrigem}") String pOrigem, @PathParam("{pDestino}") String pDestino) {
-		service.excluirRota(pOrigem, pDestino);
-		return Response.ok("Sucesso!").build();
+		return Response.ok("<sucesso/>").build();
 	}
 
 	@GET
@@ -73,9 +47,9 @@ public class RotaResource {
 	public Response putDados(String pRotasXml) {
 		try {
 			String mensagem = service.registrarRotas(pRotasXml);
-			return Response.ok("Sucesso: " + mensagem).build();
+			return Response.ok(mensagem).build();
 		} catch (Exception e) {
-			return Response.status(javax.ws.rs.core.Response.Status.BAD_REQUEST).entity("Erro: " + e.toString())
+			return Response.status(Response.Status.BAD_REQUEST).entity("Erro: " + e.toString())
 					.build();
 		}
 	}
@@ -88,9 +62,9 @@ public class RotaResource {
 
 		try {
 			String mensagem = service.registrarRota(pOrigem, pDestino, new BigDecimal(pDistancia));
-			return Response.ok("Sucesso: " + mensagem).build();
+			return Response.ok(mensagem).build();
 		} catch (Exception e) {
-			return Response.status(javax.ws.rs.core.Response.Status.BAD_REQUEST).entity("Erro: " + e.toString())
+			return Response.status(Response.Status.BAD_REQUEST).entity("Erro: " + e.toString())
 					.build();
 		}
 	}

@@ -1,13 +1,10 @@
 package br.com.ciandt.desafio.service.impl;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 import junit.framework.Assert;
@@ -16,9 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.com.ciandt.desafio.infra.HibernateUtil;
-import br.com.ciandt.desafio.infra.XmlUtil;
 import br.com.ciandt.desafio.modal.Rota;
-import br.com.ciandt.desafio.modal.RotaXmlTO;
 import br.com.ciandt.desafio.service.RotaService;
 
 public class RotaServiceImplTest {
@@ -63,6 +58,7 @@ public class RotaServiceImplTest {
 
 	@Test
 	public void test_registrarRotas_porXml_sucesso() throws IllegalAccessException {
+		service.limparTodasRotas();
 		System.out.println(xml);
 		service.registrarRotas(xml);
 		List<Rota> listaRotas = buscarTodasRotas();
@@ -70,7 +66,7 @@ public class RotaServiceImplTest {
 		System.out.println(listaRotas);
 
 		Map<String, BigDecimal> mapaEsperado = obterMapaEsperado();
-		Assert.assertEquals(mapaEsperado.size(), listaRotas.size());
+		Assert.assertEquals(listaRotas.toString(), mapaEsperado.size(), listaRotas.size());
 
 		for (Rota rota : listaRotas) {
 			BigDecimal distancia = mapaEsperado.get(rota.getSteps());
@@ -184,14 +180,13 @@ public class RotaServiceImplTest {
 	private Map<String, BigDecimal> obterMapaEsperado() {
 		Map<String, BigDecimal> mapaEsperado = new HashMap<String, BigDecimal>();
 		mapaEsperado.put("A B", new BigDecimal(10));
+		mapaEsperado.put("B D", new BigDecimal(15));
 		mapaEsperado.put("A B D", new BigDecimal(25));
 		mapaEsperado.put("A B E", new BigDecimal(60));
 		mapaEsperado.put("A B D E", new BigDecimal(55));
 		mapaEsperado.put("A C", new BigDecimal(20));
 		mapaEsperado.put("A C D", new BigDecimal(50));
 		mapaEsperado.put("A C D E", new BigDecimal(80));
-		mapaEsperado.put("A C E", new BigDecimal(80));
-		mapaEsperado.put("B D", new BigDecimal(15));
 		mapaEsperado.put("C D", new BigDecimal(30));
 		mapaEsperado.put("B E", new BigDecimal(50));
 		mapaEsperado.put("D E", new BigDecimal(30));
