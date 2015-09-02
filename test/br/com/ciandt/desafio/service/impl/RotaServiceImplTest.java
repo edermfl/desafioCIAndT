@@ -80,6 +80,42 @@ public class RotaServiceImplTest {
 	}
 
 	@Test
+	public void test_registrarRotas_com_merge_com_sucesso() throws IllegalAccessException {
+		service.limparTodasRotas();
+		String xmlTest = "<list>" 
+				+ "<rota><origem>A</origem><destino>B</destino><distancia>10</distancia></rota>"
+		        + "<rota><origem>B</origem><destino>D</destino><distancia>15</distancia></rota>"
+		        + "<rota><origem>F</origem><destino>A</destino><distancia>20</distancia></rota>"
+		        +"</list>";
+		
+		service.registrarRotas(xmlTest);
+		
+		List<Rota> listaRotas = buscarTodasRotas();
+		objetosCriado.addAll(listaRotas);
+		System.out.println(listaRotas);
+
+		Map<String, BigDecimal> mapaEsperado = new HashMap<String, BigDecimal>();
+		mapaEsperado.put("A B", new BigDecimal(10));
+		mapaEsperado.put("B D", new BigDecimal(15));
+		mapaEsperado.put("A B D", new BigDecimal(25));
+		mapaEsperado.put("F A", new BigDecimal(20));
+		mapaEsperado.put("F A B", new BigDecimal(30));
+		mapaEsperado.put("F A B D", new BigDecimal(45));
+		
+		Assert.assertEquals(listaRotas.toString(), mapaEsperado.size(), listaRotas.size());
+
+		for (Rota rota : listaRotas) {
+			BigDecimal distancia = mapaEsperado.get(rota.getSteps());
+			Assert.assertNotNull(rota.toString(), distancia);
+			Assert.assertTrue(
+			        rota.toString() + " " + distancia + " <> "
+			                + rota.getDistancia(),
+			        distancia.compareTo(rota.getDistancia()) == 0);
+		}
+
+	}
+	
+	@Test
 	public void test_buscarMelhorRota_autonomia_invalida() {
 		// registra rotas padrão
 		service.registrarRotas(xml);
