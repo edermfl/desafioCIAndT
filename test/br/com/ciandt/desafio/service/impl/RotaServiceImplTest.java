@@ -32,20 +32,22 @@ public class RotaServiceImplTest {
 	        + "</list>";
 
 	@Test(expected = IllegalArgumentException.class)
-	public void test_registrarRotas_porXml_xml_nulo() throws IllegalAccessException {
+	public void test_registrarRotas_porXml_xml_nulo() throws IllegalArgumentException {
 		String xmlRota = null;
 		service.registrarRotas(xmlRota);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void test_registrarRota_origem_igual_destino() throws IllegalAccessException {
-		service.registrarRota("X","X",BigDecimal.TEN);
+	@Test
+	public void test_registrarRota_origem_igual_destino() throws IllegalArgumentException {
+		String mensagem = service.registrarRota("X","X",BigDecimal.TEN);
+		Assert.assertEquals("<erro>Rota [null]: X - X (10).</erro>",mensagem);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void test_registrarRota_origem_igual_destino_2() throws IllegalAccessException {
+	@Test
+	public void test_registrarRota_origem_igual_destino_2() throws IllegalArgumentException {
 		service.registrarRota("X","Y",BigDecimal.TEN);
-		service.registrarRota("Y","X",BigDecimal.TEN);
+		String mensagem = service.registrarRota("Y","X",BigDecimal.TEN);
+		Assert.assertEquals("<erro>Rota [Y X]: Y - X (10).</erro>",mensagem);
 	}
 	
 	@Test()
@@ -167,6 +169,7 @@ public class RotaServiceImplTest {
 		// registra rotas padrão
 		service.registrarRotas(xml);
 		List<Rota> listaRotas = buscarTodasRotas();
+		System.out.println(listaRotas);
 		objetosCriado.addAll(listaRotas);
 
 		String origem = "X";
@@ -236,6 +239,7 @@ public class RotaServiceImplTest {
 		for (Rota rota : objetosCriado) {
 			HibernateUtil.getSession().delete(rota);
 		}
+		service.limparTodasRotas();
 	}
 
 
