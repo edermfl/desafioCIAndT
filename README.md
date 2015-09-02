@@ -1,4 +1,4 @@
-# Desafio de desenvolvimento CI&T
+# Desafio de Desenvolvimento CI&T
 <h2>Ferramentas</h2>
 <ul>
 <li>A aplicação roda em Tomcat 7.</br></li>
@@ -102,5 +102,5 @@ Dado que você tenha criado a seguinte rota: A B 20
 Quando solicitar a melhor rota para: A B 10 1
 Então receberei o melhor custo: A B 10
 Quando solicitar a melhor rota para: B A 10 1
-Então receberei a mensagem: "Não foi encontrado rota para a origem A e destino D informado."
+Então receberei a mensagem: "Não foi encontrado rota para a origem B e destino A informado."
 ```
