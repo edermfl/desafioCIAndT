@@ -1,4 +1,4 @@
-# desafioCIAndT
+# Desafio de desenvolvimento CI&T
 <h2>Ferramentas</h2>
 <ul>
 <li>A aplicação roda em Tomcat 7.</br></li>
