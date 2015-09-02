@@ -14,7 +14,7 @@
 
 <h2>Serviços Disponíveis</h2>
 
-<b>Serviço: </b>Listar Rotas</br>
+<h3>Serviço: Listar Rotas</h3>
 <b>Descrição: </b>Lista todas as rotas disponíveis</br>
 <b>Método: </b>GET</br>
 <b>URL: </b>http://localhost:8080/desafioCIAndT/rest/rotas</br>
@@ -31,7 +31,7 @@
   </list>
 ```
 
-<b>Serviço: </b>Registrar Rotas</br>
+<h3>Serviço: Registrar Rotas</h3>
 <b>Descrição: </b>Recebe um XML contendo rotas e registra as rotas na aplicação</br>
 <b>Método: </b>PUT</br>
 <b>Parametros HEADERS: </b>content-type = text/xml</br>
@@ -52,7 +52,7 @@
     <sucesso>Rota [A B]: A - B (10).</sucesso>
   </retorno>
 ```
-<b>Serviço: </b>Registrar Rota</br>
+<h3>Serviço: Registrar Rota</h3>
 <b>Descrição: </b>Registra uma rota</br>
 <b>Método: </b>POST</br>
 <b>Parametros form-urlencoded: </b>[origem = X, destino = Z, distancia = 10]</br>
@@ -63,7 +63,7 @@
     <sucesso>Rota [X Z]: X - Z (10).</sucesso>
   </retorno>
 ```
-<b>Serviço: </b>Melhor Rota</br>
+<h3>Serviço: Melhor Rota</h3>
 <b>Descrição: </b>Define qual melhor rota seguir</br>
 <b>Método: </b>PUT</br>
 <b>Parametros HEADERS: </b>content-type = text/xml</br>
@@ -84,7 +84,7 @@
     <custo>6.25</custo>
 </melhorCusto>
 ```
-<b>Serviço: </b>Limpar Rotas</br>
+<h3>Serviço: Limpar Rotas</h3>
 <b>Descrição: </b>Apaga todas as rotas cadastradas</br>
 <b>Método: </b>DELETE</br>
 <b>URL: </b>http://localhost:8080/desafioCIAndT/rest/rotas/limpar</br>
