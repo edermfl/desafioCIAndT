@@ -95,7 +95,7 @@
 <sucesso/>
 ```
 
-<h2>Gueps conhecidos</h2>
+<h2>Gaps conhecidos</h2>
 Existe um problema, vide o cenário abaixo:
 ```
 Dado que você tenha criado a seguinte rota: A B 20
