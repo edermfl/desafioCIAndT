@@ -35,7 +35,7 @@
 <b>Descrição: </b>Recebe um XML contendo rotas e registra as rotas na aplicação</br>
 <b>Método: </b>PUT</br>
 <b>Parametros HEADERS: </b>content-type = text/xml</br>
-<b>BODY MESSAGE: </b>
+<b>BODY MESSAGE: </b>XML
 ```
   <list>
       <rota>
@@ -67,7 +67,7 @@
 <b>Descrição: </b>Define qual melhor rota seguir</br>
 <b>Método: </b>PUT</br>
 <b>Parametros HEADERS: </b>content-type = text/xml</br>
-<b>BODY MESSAGE: </b>
+<b>BODY MESSAGE: </b>XML
 ```
   <melhorRota>
       <origem>A</origem>
